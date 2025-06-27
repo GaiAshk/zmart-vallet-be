@@ -1,3 +1,29 @@
+[project]
+name = "zmart-vallet-be"
+version = "0.1.0"
+description = "Playing aroud with vibe coding to create a smart wallet app"
+authors = [
+    {name = "Gai Ashkenazy",email = "gai.ashkenazy@ridewithvia.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi (>=0.115.14,<0.116.0)",
+    "uvicorn (>=0.34.3,<0.35.0)",
+    "sqlalchemy (>=2.0.41,<3.0.0)",
+    "psycopg2-binary (>=2.9.10,<3.0.0)",
+    "python-jose[cryptography] (>=3.5.0,<4.0.0)",
+    "passlib[bcrypt] (>=1.7.4,<2.0.0)",
+    "pydantic (>=2.11.7,<3.0.0)",
+    "python-multipart (>=0.0.20,<0.0.21)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.mypy]
 python_version = "3.13"
 strict = true
@@ -48,4 +74,11 @@ convention = "google"
 quote-style = "double"
 indent-style = "space"
 line-ending = "auto"
+
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.16.1"
+ruff = "^0.12.1"
+pytest = "^8.4.1"
 
