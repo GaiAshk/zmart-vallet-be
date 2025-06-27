@@ -4,7 +4,8 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
-from . import database, models
+from app.database import SessionLocal
+from app.db_models.user import User
 
 SECRET_KEY = "supersecretkey"
 ALGORITHM = "HS256"
@@ -23,7 +24,7 @@ def get_password_hash(password):
 
 
 def get_user(db: Session, username: str):
-    return db.query(models.User).filter(models.User.username == username).first()
+    return db.query(User).filter(User.username == username).first()
 
 
 def authenticate_user(db, username: str, password: str):
@@ -43,7 +44,7 @@ def create_access_token(data: dict):
 
 
 def get_current_user(
-    token: str = Depends(oauth2_scheme), db: Session = Depends(database.SessionLocal)
+    token: str = Depends(oauth2_scheme), db: Session = Depends(SessionLocal)
 ):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,

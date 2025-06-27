@@ -1,13 +1,13 @@
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
 from app.auth import authenticate_user, create_access_token, get_current_user
-from app.crud import create_expense, create_user, get_expenses
+from app.crud.expense import get_expenses, store_expense
+from app.crud.user import create_user
 from app.data_types.expense import Expense, ExpenseCreate
-from app.data_types.user import Token, UserCreate
+from app.data_types.user import Token, User, UserCreate
 from app.database import Base, SessionLocal, engine
-from app.db_modles.user import User
 
 Base.metadata.create_all(bind=engine)
 
@@ -37,7 +37,7 @@ def create_expense(
     current_user=Depends(get_current_user),
     db: Session = Depends(SessionLocal),
 ):
-    return create_expense(db, expense, user_id=current_user.id)
+    return store_expense(db, expense, user_id=current_user.id)
 
 
 @app.get("/expenses/", response_model=list[Expense])
